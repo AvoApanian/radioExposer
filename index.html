@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/radio-icon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Studio Radio Années 80 - Présentation Interactive" />
+    <title>📻 Studio Radio 80s</title>
+    
+    <!-- Preconnect pour optimisation -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    
+    <!-- Styles de base -->
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Courier New', monospace;
+        background: #0a0a0a;
+        color: #fff;
+        overflow: hidden;
+      }
+      
+      /* Loading screen */
+      #loading {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(180deg, #0a0a14 0%, #1a1a2e 50%, #0f0f1e 100%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease;
+      }
+      
+      #loading.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      
+      .loader {
+        width: 80px;
+        height: 80px;
+        border: 5px solid rgba(255, 69, 0, 0.2);
+        border-top-color: #ff4500;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+      
+      .loading-text {
+        margin-top: 30px;
+        font-size: 18px;
+        color: #ff4500;
+        text-shadow: 0 0 10px rgba(255, 69, 0, 0.6);
+        letter-spacing: 3px;
+        animation: pulse 2s ease-in-out infinite;
+      }
+      
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+      }
+      
+      .loading-subtitle {
+        margin-top: 10px;
+        font-size: 12px;
+        color: #00ff88;
+        text-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
+        letter-spacing: 2px;
+      }
+    </style>
+    <script type="module" crossorigin src="/assets/index-CN0Lhy55.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-DqhUEDx4.css">
+  </head>
+  <body>
+    <!-- Loading Screen -->
+    <div id="loading">
+      <div class="loader"></div>
+      <div class="loading-text">LOADING STUDIO...</div>
+      <div class="loading-subtitle">Initializing 80s Vibes</div>
+    </div>
+    
+    <!-- React App Root -->
+    <div id="root"></div>
+    
+    <!-- Script d'initialisation -->
+    <script>
+      // Cacher le loading screen une fois l'app chargée
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          const loading = document.getElementById('loading');
+          if (loading) {
+            loading.classList.add('hidden');
+            setTimeout(() => loading.remove(), 500);
+          }
+        }, 1000);
+      });
+    </script>
+    
+    <!-- Module principal -->
+  </body>
+</html>
