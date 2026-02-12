@@ -3,8 +3,10 @@ import './App.css';
 import SlideShow from './components/SlideShow/SlideShow';
 import jazzMusic from './sfx/jazzPresentation.mp3';
 
-import hopperSelfPortrait from './assets/hopper-selfportrait.jpg';
-import hopperChopSuey from './assets/hopper-chopsuey.jpg';
+import hopperSelfPortrait from '../public/images//hopper-selfportrait.jpg';
+import hopperChopSuey from '../public/images/hopper-chopsuey.jpg';
+
+
 
 interface SlideData {
   id: number;
