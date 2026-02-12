@@ -1,0 +1,123 @@
+.on-air-container {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+}
+
+.on-air-light {
+  position: relative;
+  width: 280px;
+  height: 100px;
+  background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
+  border: 4px solid #2a2a2a;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.8),
+    inset 0 2px 8px rgba(0, 0, 0, 0.9);
+  overflow: hidden;
+}
+
+.light-glow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, rgba(255, 0, 0, 0.4) 0%, transparent 70%);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.light-text {
+  position: relative;
+  font-family: 'Impact', 'Arial Black', sans-serif;
+  font-size: 48px;
+  font-weight: bold;
+  color: #ff0000;
+  letter-spacing: 12px;
+  text-shadow: 
+    0 0 20px rgba(255, 0, 0, 0.8),
+    0 0 40px rgba(255, 0, 0, 0.6),
+    0 0 60px rgba(255, 0, 0, 0.4),
+    2px 2px 8px rgba(0, 0, 0, 0.9);
+  animation: blink 2s ease-in-out infinite;
+  z-index: 10;
+}
+
+@keyframes blink {
+  0%, 49%, 100% {
+    opacity: 1;
+    text-shadow: 
+      0 0 20px rgba(255, 0, 0, 1),
+      0 0 40px rgba(255, 0, 0, 0.8),
+      0 0 60px rgba(255, 0, 0, 0.6),
+      2px 2px 8px rgba(0, 0, 0, 0.9);
+  }
+  50%, 99% {
+    opacity: 0.3;
+    text-shadow: 
+      0 0 5px rgba(255, 0, 0, 0.4),
+      0 0 10px rgba(255, 0, 0, 0.2),
+      2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+/* Effet de réflexion sur le boîtier */
+.on-air-light::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  height: 40%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+  border-radius: 8px 8px 50% 50%;
+}
+
+/* LEDs indicatrices sur les côtés */
+.on-air-light::after {
+  content: '';
+  position: absolute;
+  bottom: 10px;
+  left: 20px;
+  width: 8px;
+  height: 8px;
+  background: #00ff00;
+  border-radius: 50%;
+  box-shadow: 
+    0 0 10px rgba(0, 255, 0, 0.8),
+    240px 0 0 0 #00ff00,
+    240px 0 10px 0 rgba(0, 255, 0, 0.8);
+  animation: led-blink 3s ease-in-out infinite;
+}
+
+@keyframes led-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .on-air-light {
+    width: 200px;
+    height: 70px;
+  }
+  
+  .light-text {
+    font-size: 32px;
+    letter-spacing: 8px;
+  }
+}

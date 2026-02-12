@@ -1,0 +1,569 @@
+.radio-studio {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* Fond dégradé bleu nuit */
+.studio-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(ellipse at top left, rgba(15, 32, 60, 0.8) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom right, rgba(20, 20, 45, 0.9) 0%, transparent 50%),
+    linear-gradient(180deg, #0a0a14 0%, #1a1a2e 50%, #0f0f1e 100%);
+}
+
+.studio-elements {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Lampe de bureau interactive */
+.desk-lamp {
+  position: absolute;
+  top: 20%;
+  left: 12%;
+  width: 100px;
+  height: 200px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 60;
+}
+
+.desk-lamp:hover {
+  transform: scale(1.1);
+}
+
+.lamp-head {
+  position: relative;
+  width: 80px;
+  height: 60px;
+  background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+  border-radius: 0 0 40% 40%;
+  transform-origin: bottom center;
+  box-shadow: 
+    0 5px 15px rgba(0, 0, 0, 0.5),
+    inset 0 -2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.bulb {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle, #fff 0%, #ffeb3b 40%, #ffa000 100%);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 0 10px rgba(255, 235, 59, 0.5),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3);
+}
+
+.desk-lamp.on .bulb {
+  background: radial-gradient(circle, #fff 0%, #ffeb3b 60%, #ffa000 100%);
+  box-shadow: 
+    0 0 40px rgba(255, 235, 59, 1),
+    0 0 80px rgba(255, 235, 59, 0.6),
+    inset 0 2px 4px rgba(255, 255, 255, 0.5);
+  animation: bulb-flicker 3s ease-in-out infinite;
+}
+
+.desk-lamp.off .bulb {
+  background: radial-gradient(circle, #3a3a3a 0%, #2a2a2a 100%);
+  box-shadow: none;
+}
+
+@keyframes bulb-flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.95; }
+  75% { opacity: 0.98; }
+}
+
+.lamp-glow {
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(ellipse at center, rgba(255, 235, 59, 0.3) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.desk-lamp.on .lamp-glow {
+  opacity: 1;
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+  50% { opacity: 0.8; transform: translateX(-50%) scale(1.1); }
+}
+
+.lamp-arm {
+  width: 8px;
+  height: 80px;
+  background: linear-gradient(90deg, #2a2a2a 0%, #4a4a4a 50%, #2a2a2a 100%);
+  margin: 0 auto;
+  border-radius: 4px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.lamp-base {
+  width: 60px;
+  height: 20px;
+  background: linear-gradient(180deg, #4a4a4a 0%, #2a2a2a 100%);
+  margin: 0 auto;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7);
+}
+
+/* Console analogique */
+.console {
+  position: absolute;
+  bottom: 10%;
+  left: 5%;
+  width: 400px;
+  height: 200px;
+  background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.8),
+    inset 0 2px 4px rgba(255, 255, 255, 0.1);
+  transform: perspective(800px) rotateY(5deg) rotateX(-5deg);
+}
+
+.console-top {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.channel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.knob {
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle, #3a3a3a 0%, #1a1a1a 100%);
+  border-radius: 50%;
+  border: 2px solid #0a0a0a;
+  position: relative;
+  box-shadow: 
+    inset 0 -2px 4px rgba(0, 0, 0, 0.5),
+    0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+}
+
+.knob.interactive {
+  cursor: pointer;
+}
+
+.knob.interactive:hover {
+  transform: scale(1.1);
+  box-shadow: 
+    inset 0 -2px 6px rgba(0, 0, 0, 0.6),
+    0 0 15px rgba(255, 69, 0, 0.4);
+}
+
+.knob.interactive:active {
+  transform: scale(0.95);
+}
+
+.knob::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 50%;
+  width: 2px;
+  height: 10px;
+  background: #ff4500;
+  border-radius: 1px;
+  box-shadow: 0 0 4px #ff4500;
+}
+
+.fader {
+  width: 8px;
+  height: 60px;
+  background: #0a0a0a;
+  border-radius: 4px;
+  position: relative;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.fader::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(180deg, #00ff88 0%, #00aa55 100%);
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(0, 255, 136, 0.6);
+  height: inherit;
+}
+
+.vu-meters {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* Microphone rétro */
+.microphone {
+  position: absolute;
+  top: 25%;
+  right: 15%;
+  width: 80px;
+  height: 200px;
+  transform: perspective(500px) rotateY(-15deg);
+}
+
+.mic-head {
+  width: 80px;
+  height: 120px;
+  background: linear-gradient(90deg, #c0c0c0 0%, #808080 50%, #c0c0c0 100%);
+  border-radius: 50% 50% 45% 45%;
+  position: relative;
+  box-shadow: 
+    inset -5px 0 10px rgba(0, 0, 0, 0.3),
+    inset 5px 0 10px rgba(255, 255, 255, 0.2),
+    0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.mic-head::after {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 80%;
+  height: 60%;
+  background: repeating-linear-gradient(
+    0deg,
+    #a0a0a0,
+    #a0a0a0 2px,
+    #909090 2px,
+    #909090 4px
+  );
+  border-radius: 50%;
+}
+
+.mic-body {
+  width: 30px;
+  height: 40px;
+  background: linear-gradient(90deg, #404040 0%, #606060 50%, #404040 100%);
+  margin: 0 auto;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.mic-stand {
+  width: 4px;
+  height: 40px;
+  background: linear-gradient(90deg, #303030 0%, #505050 50%, #303030 100%);
+  margin: 0 auto;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Vinyles */
+.vinyl-stack {
+  position: absolute;
+  bottom: 15%;
+  right: 8%;
+  width: 200px;
+  height: 200px;
+}
+
+.vinyl {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, #0a0a0a 30%, #1a1a1a 31%, #0a0a0a 32%, #1a1a1a 100%);
+  border-radius: 50%;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
+  transition: all 0.3s ease;
+}
+
+.vinyl.interactive {
+  cursor: pointer;
+}
+
+.vinyl.interactive:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
+}
+
+.vinyl.spinning {
+  animation: spin-vinyl 2s linear infinite;
+}
+
+@keyframes spin-vinyl {
+  from { 
+    transform: rotate(0deg); 
+  }
+  to { 
+    transform: rotate(360deg); 
+  }
+}
+
+.vinyl-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, #ff4500 0%, #cc3700 100%);
+  border-radius: 50%;
+  box-shadow: 
+    inset 0 2px 8px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(255, 69, 0, 0.3);
+}
+
+.vinyl-hole {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 15px;
+  height: 15px;
+  background: #0a0a0a;
+  border-radius: 50%;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Câbles */
+.cables {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.6;
+  filter: blur(1px);
+  pointer-events: none;
+}
+
+.cables .cable {
+  pointer-events: auto;
+  transition: all 0.3s ease;
+}
+
+.cables .cable:hover {
+  opacity: 1;
+  filter: drop-shadow(0 0 10px currentColor);
+}
+
+.cables .cable.glowing {
+  animation: cable-glow 1s ease-in-out;
+  stroke-width: 6;
+}
+
+@keyframes cable-glow {
+  0%, 100% { 
+    opacity: 0.6;
+    filter: drop-shadow(0 0 5px currentColor);
+  }
+  50% { 
+    opacity: 1;
+    filter: drop-shadow(0 0 20px currentColor);
+  }
+}
+
+/* Affiches */
+.posters {
+  position: absolute;
+  top: 15%;
+  left: 8%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  perspective: 1000px;
+}
+
+.poster {
+  width: 150px;
+  height: 200px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+  cursor: pointer;
+  transform: rotate(-3deg);
+}
+
+.poster.interactive:hover {
+  transform: rotate(0deg) scale(1.05);
+}
+
+.poster.flipped {
+  transform: rotateY(180deg);
+}
+
+.poster-front,
+.poster-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  background: linear-gradient(135deg, rgba(30, 30, 30, 0.9) 0%, rgba(20, 20, 20, 0.95) 100%);
+  border: 3px solid rgba(255, 69, 0, 0.4);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.7),
+    inset 0 0 20px rgba(255, 69, 0, 0.1);
+}
+
+.poster-back {
+  transform: rotateY(180deg);
+  border-color: rgba(0, 255, 136, 0.4);
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.7),
+    inset 0 0 20px rgba(0, 255, 136, 0.1);
+}
+
+.poster-front .poster-text {
+  font-family: 'Impact', sans-serif;
+  font-size: 36px;
+  font-weight: bold;
+  color: #ff4500;
+  text-shadow: 
+    0 0 20px rgba(255, 69, 0, 0.8),
+    2px 2px 4px rgba(0, 0, 0, 0.8);
+  letter-spacing: 4px;
+}
+
+.poster-back .poster-text {
+  font-family: 'Impact', sans-serif;
+  font-size: 36px;
+  font-weight: bold;
+  color: #00ff88;
+  text-shadow: 
+    0 0 20px rgba(0, 255, 136, 0.8),
+    2px 2px 4px rgba(0, 0, 0, 0.8);
+  letter-spacing: 4px;
+}
+
+.poster-2 {
+  transform: rotate(2deg);
+  margin-left: 20px;
+}
+
+.poster-2.flipped {
+  transform: rotate(2deg) rotateY(180deg);
+}
+
+/* Particules de poussière */
+.dust-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.dust {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  animation: float-dust linear infinite;
+}
+
+@keyframes float-dust {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.3;
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(100vh) translateX(50px);
+    opacity: 0;
+  }
+}
+
+/* Vignette */
+.vignette {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.6) 100%);
+  pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .console {
+    width: 300px;
+    height: 150px;
+    bottom: 15%;
+    left: 3%;
+  }
+  
+  .microphone {
+    width: 60px;
+    height: 150px;
+    top: 30%;
+    right: 10%;
+  }
+  
+  .vinyl-stack {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .vinyl {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .posters {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .console {
+    width: 200px;
+    height: 100px;
+    padding: 10px;
+  }
+  
+  .knob {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .microphone {
+    display: none;
+  }
+}
