@@ -1,5 +1,7 @@
-// src/vite-env.d.ts
-declare module '*.mp3' {
-  const src: string;
-  export default src;
-}
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  plugins: [react()],
+  base: '/radioExposer/', // <- chemin du repo
+});

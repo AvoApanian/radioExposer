@@ -5,15 +5,16 @@ import { soundManager } from '../../utils/SoundManager';
 interface MiniRadioProps {
   isPlaying: boolean;
   onPowerToggle: () => void;
+  onVolumeChange?: () => void; // Accepté mais non utilisé
+  currentVolume?: number;       // Accepté mais non utilisé
 }
 
 const MiniRadio: FC<MiniRadioProps> = ({ isPlaying, onPowerToggle }) => {
   const [bars, setBars] = useState<number[]>([5, 5, 5, 5, 5, 5]);
 
-  // L'égaliseur s'anime seulement si le son est ON
   useEffect(() => {
     if (!isPlaying) {
-      setBars([5, 5, 5, 5, 5, 5]); // Barres à plat si radio OFF
+      setBars([5, 5, 5, 5, 5, 5]);
       return;
     }
 
@@ -27,8 +28,6 @@ const MiniRadio: FC<MiniRadioProps> = ({ isPlaying, onPowerToggle }) => {
   return (
     <div className={`mini-radio ${isPlaying ? 'playing' : ''}`}>
       <div className="radio-body">
-        
-        {/* Écran de l'égaliseur */}
         <div className="radio-display">
           <div className="equalizer">
             {bars.map((height, i) => (
@@ -38,18 +37,16 @@ const MiniRadio: FC<MiniRadioProps> = ({ isPlaying, onPowerToggle }) => {
         </div>
 
         <div className="radio-buttons">
-          {/* Seul le bouton Power reste */}
           <div 
             className="button power" 
             title="Power ON/OFF" 
             onClick={() => {
-                soundManager.switch();
-                onPowerToggle();
+              soundManager.switch();
+              onPowerToggle();
             }}
           ></div>
         </div>
 
-        {/* Petite LED d'état */}
         <div className={`power-led ${isPlaying ? 'on' : ''}`}></div>
       </div>
     </div>
