@@ -3,6 +3,9 @@ import './App.css';
 import SlideShow from './components/SlideShow/SlideShow';
 import jazzMusic from './sfx/jazzPresentation.mp3';
 
+import hopperSelfPortrait from './assets/hopper-selfportrait.jpg';
+import hopperChopSuey from './assets/hopper-chopsuey.jpg';
+
 interface SlideData {
   id: number;
   type: 'intro' | 'artwork' | 'outro';
@@ -16,30 +19,39 @@ interface SlideData {
 function App() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isZoomed, setIsZoomed] = useState(false);
-  const [isRadioOn, setIsRadioOn] = useState(true); 
+  const [isRadioOn, setIsRadioOn] = useState(true);
   const [volume, setVolume] = useState(0.5);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const slides: SlideData[] = [
     { id: 1, type: 'intro', title: 'Welcome to the Show', hasAudio: true },
-    { 
-      id: 2, type: 'artwork', title: 'Self-Portrait', artist: 'Edward Hopper',
-      image: import.meta.env.BASE_URL + 'images/hopper-selfportrait.jpg',
+
+    {
+      id: 2,
+      type: 'artwork',
+      title: 'Self-Portrait',
+      artist: 'Edward Hopper',
+      image: hopperSelfPortrait, 
       hasAudio: false
     },
-    { 
-      id: 3, type: 'artwork', title: 'Chop Suey', artist: 'Edward Hopper',
-      image: import.meta.env.BASE_URL + 'images/hopper-chopsuey.jpg',
+
+    {
+      id: 3,
+      type: 'artwork',
+      title: 'Chop Suey',
+      artist: 'Edward Hopper',
+      image: hopperChopSuey, 
       hasAudio: false
     },
+
     { id: 4, type: 'outro', title: 'Thank you for listening to me', hasAudio: true }
   ];
 
-  // --- AUTO-OFF SUR SLIDES 2 & 3 ---
+  // --- AUTO-OFF RADIO ---
   useEffect(() => {
     if (slides[currentSlide] && !slides[currentSlide].hasAudio) {
       setIsRadioOn(false);
-    } else if (slides[currentSlide]?.hasAudio) {
+    } else {
       setIsRadioOn(true);
     }
   }, [currentSlide]);
@@ -50,9 +62,12 @@ function App() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight') setCurrentSlide(p => (p < slides.length - 1 ? p + 1 : p));
-      if (e.key === 'ArrowLeft') setCurrentSlide(p => (p > 0 ? p - 1 : p));
-      if (e.key === ' ') { e.preventDefault(); setIsZoomed(p => !p); }
+      if (e.key === 'ArrowRight') setCurrentSlide(p => Math.min(p + 1, slides.length - 1));
+      if (e.key === 'ArrowLeft') setCurrentSlide(p => Math.max(p - 1, 0));
+      if (e.key === ' ') {
+        e.preventDefault();
+        setIsZoomed(p => !p);
+      }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
@@ -61,17 +76,14 @@ function App() {
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-    if (isRadioOn) {
-      audio.play().catch(() => {});
-    } else {
-      audio.pause();
-    }
+    isRadioOn ? audio.play().catch(() => {}) : audio.pause();
   }, [isRadioOn]);
 
   return (
     <div className="app">
       <audio ref={audioRef} src={jazzMusic} loop preload="auto" />
-      <SlideShow 
+
+      <SlideShow
         slides={slides}
         currentSlide={currentSlide}
         isZoomed={isZoomed}
