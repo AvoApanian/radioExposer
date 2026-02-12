@@ -3,6 +3,16 @@ import './App.css';
 import SlideShow from './components/SlideShow/SlideShow';
 import jazzMusic from './sfx/jazzPresentation.mp3';
 
+interface SlideData {
+  id: number;
+  type: 'intro' | 'artwork' | 'outro';
+  title: string;
+  artist?: string;
+  image?: string;
+  description?: string;
+  hasAudio: boolean;
+}
+
 function App() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isZoomed, setIsZoomed] = useState(false);
@@ -10,16 +20,23 @@ function App() {
   const [volume, setVolume] = useState(0.5);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  const slides = [
+  const slides: SlideData[] = [
     { id: 1, type: 'intro', title: 'Welcome to the Show', hasAudio: true },
-    { id: 2, type: 'artwork', title: 'Self-Portrait', artist: 'Edward Hopper', image: '/images/hopper-selfportrait.jpg', hasAudio: false },
-    { id: 3, type: 'artwork', title: 'Chop Suey', artist: 'Edward Hopper', image: '/images/hopper-chopsuey.jpg', hasAudio: false },
+    { 
+      id: 2, type: 'artwork', title: 'Self-Portrait', artist: 'Edward Hopper',
+      image: import.meta.env.BASE_URL + 'images/hopper-selfportrait.jpg',
+      hasAudio: false
+    },
+    { 
+      id: 3, type: 'artwork', title: 'Chop Suey', artist: 'Edward Hopper',
+      image: import.meta.env.BASE_URL + 'images/hopper-chopsuey.jpg',
+      hasAudio: false
+    },
     { id: 4, type: 'outro', title: 'Thank you for listening to me', hasAudio: true }
   ];
 
   // --- AUTO-OFF SUR SLIDES 2 & 3 ---
   useEffect(() => {
-    // Si la slide actuelle n'a pas d'audio (artwork), on coupe la radio
     if (slides[currentSlide] && !slides[currentSlide].hasAudio) {
       setIsRadioOn(false);
     } else if (slides[currentSlide]?.hasAudio) {
@@ -55,7 +72,7 @@ function App() {
     <div className="app">
       <audio ref={audioRef} src={jazzMusic} loop preload="auto" />
       <SlideShow 
-        slides={slides as any}
+        slides={slides}
         currentSlide={currentSlide}
         isZoomed={isZoomed}
         onSlideChange={setCurrentSlide}
@@ -68,4 +85,4 @@ function App() {
   );
 }
 
-export default App; 
+export default App;
