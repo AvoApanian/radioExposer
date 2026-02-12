@@ -3,11 +3,6 @@ import './App.css';
 import SlideShow from './components/SlideShow/SlideShow';
 import jazzMusic from './sfx/jazzPresentation.mp3';
 
-import hopperSelfPortrait from '../public/images//hopper-selfportrait.jpg';
-import hopperChopSuey from '../public/images/hopper-chopsuey.jpg';
-
-
-
 interface SlideData {
   id: number;
   type: 'intro' | 'artwork' | 'outro';
@@ -26,14 +21,19 @@ function App() {
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const slides: SlideData[] = [
-    { id: 1, type: 'intro', title: 'Welcome to the Show', hasAudio: true },
+    {
+      id: 1,
+      type: 'intro',
+      title: 'Welcome to the Show',
+      hasAudio: true
+    },
 
     {
       id: 2,
       type: 'artwork',
       title: 'Self-Portrait',
       artist: 'Edward Hopper',
-      image: hopperSelfPortrait, 
+      image: import.meta.env.BASE_URL + 'images/hopper-selfportrait.jpg',
       hasAudio: false
     },
 
@@ -42,43 +42,63 @@ function App() {
       type: 'artwork',
       title: 'Chop Suey',
       artist: 'Edward Hopper',
-      image: hopperChopSuey, 
+      image: import.meta.env.BASE_URL + 'images/hopper-chopsuey.jpg',
       hasAudio: false
     },
 
-    { id: 4, type: 'outro', title: 'Thank you for listening to me', hasAudio: true }
+    {
+      id: 4,
+      type: 'outro',
+      title: 'Thank you for listening to me',
+      hasAudio: true
+    }
   ];
 
-  // --- AUTO-OFF RADIO ---
+  // AUTO ON / OFF RADIO SELON SLIDE
   useEffect(() => {
-    if (slides[currentSlide] && !slides[currentSlide].hasAudio) {
+    if (!slides[currentSlide]?.hasAudio) {
       setIsRadioOn(false);
     } else {
       setIsRadioOn(true);
     }
   }, [currentSlide]);
 
+  // VOLUME
   useEffect(() => {
-    if (audioRef.current) audioRef.current.volume = volume;
+    if (audioRef.current) {
+      audioRef.current.volume = volume;
+    }
   }, [volume]);
 
+  // CLAVIER
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight') setCurrentSlide(p => Math.min(p + 1, slides.length - 1));
-      if (e.key === 'ArrowLeft') setCurrentSlide(p => Math.max(p - 1, 0));
+      if (e.key === 'ArrowRight') {
+        setCurrentSlide(p => Math.min(p + 1, slides.length - 1));
+      }
+      if (e.key === 'ArrowLeft') {
+        setCurrentSlide(p => Math.max(p - 1, 0));
+      }
       if (e.key === ' ') {
         e.preventDefault();
         setIsZoomed(p => !p);
       }
     };
+
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // AUDIO
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-    isRadioOn ? audio.play().catch(() => {}) : audio.pause();
+
+    if (isRadioOn) {
+      audio.play().catch(() => {});
+    } else {
+      audio.pause();
+    }
   }, [isRadioOn]);
 
   return (
@@ -91,8 +111,10 @@ function App() {
         isZoomed={isZoomed}
         onSlideChange={setCurrentSlide}
         isRadioOn={isRadioOn}
-        onPowerToggle={() => setIsRadioOn(!isRadioOn)}
-        onVolumeChange={() => setVolume(v => (v >= 1 ? 0.2 : v + 0.2))}
+        onPowerToggle={() => setIsRadioOn(p => !p)}
+        onVolumeChange={() =>
+          setVolume(v => (v >= 1 ? 0.2 : v + 0.2))
+        }
         currentVolume={volume * 100}
       />
     </div>
